@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from .core import Constraint, UserDefinedExpress, Qbit
+from .core import SubH, UserDefinedExpress, Qbit
 
 
 class NotConst(UserDefinedExpress):
@@ -73,7 +73,7 @@ class AndConst(UserDefinedExpress):
     """
 
     def __init__(self, a, b, c, label):
-        express = Constraint(a * b - 2 * (a + b) * c + 3 * c, label=label)
+        express = SubH(a * b - 2 * (a + b) * c + 3 * c, label=label, as_constraint=true)
         super(AndConst, self).__init__(express)
 
 
@@ -105,7 +105,7 @@ class OrConst(UserDefinedExpress):
     """
 
     def __init__(self, a, b, c, label):
-        express = Constraint(a * b + (a + b) * (1 - 2 * c) + c, label=label)
+        express = SubH(a * b + (a + b) * (1 - 2 * c) + c, label=label, as_constraint=True)
         super(OrConst, self).__init__(express)
 
 
@@ -138,5 +138,6 @@ class XorConst(UserDefinedExpress):
 
     def __init__(self, a, b, c, label):
         aux = Qbit("aux_"+label)
-        express = Constraint(2 * a * b - 2 * (a + b) * c - 4 * (a + b) * aux + 4 * aux * c + a + b + c + 4 * aux, label=label)
+        express = SubH(2 * a * b - 2 * (a + b) * c - 4 * (a + b) * aux + 4 * aux * c + a + b + c + 4 * aux,
+                       label=label, as_constraint=True)
         super(XorConst, self).__init__(express)
